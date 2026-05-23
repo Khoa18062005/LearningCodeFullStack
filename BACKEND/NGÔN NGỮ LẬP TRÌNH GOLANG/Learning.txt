@@ -1,0 +1,122 @@
+===========================================================
+1. Khai báo biến và kiểu dữ liệu
+	1.1 Khai báo biến
+		- Phạm vi global và local:
+			+ var a int = 10
+			+ var a = 10
+		- Phạm vi local: a := 10 (không thể khai báo global)
+	1.2  Nhập, xuất biến
+		- In biến ra màn hình: fmt.Println(variable)
+		- Nhập biến từ bàn phím: 
+            + Nhập chuỗi không có khoảng cách: fmt.Scan(&variable), fmt.Scanln(&variable)
+            + Nhập chuỗi có khoảng cách (scanner)
+                --> Cần chú ý 1 scanner.Scan() chỉ nhập được 1 biến
+                scanner := bufio.NewScanner(os.Stdin)
+                if scanner.Scan(){
+                    stringValue := scanner.Text()
+                }
+    1.3 Toán tử logic
+		- && --> and
+		- || --> or
+		- !  --> not
+	1.4 Kiểu dữ liệu
+		- int, float64, float32, string, bool
+    1.5 Kiểu dữ liệu string
+        - Là kiểu dữ liệu bất biến và không thể update
+            --> Khi cần update chuỗi S, chuyển về mảng byte: 
+                tempS := []byte(S) || ép kiểu về slice
+                S = string(tempS)  || chuyển slice về string
+        - Bản chất là mảng các byte không phải ký tự s := "khoa"
+            --> s[0] = 107 (mã ascii)
+            --> string(s[0]) = "k"
+        - Tiếng Việt làm lệt độ dài ký tự thực tế, giải pháp thay thế:
+            import "unicode/utf8"
+            Độ_dài_chuỗi_TV := utf8.RuneCountInString(stringNeedtoCount)
+        - Các hàm thông dụng với chuỗi
+            + Cập nhật chuỗi: 
+                * Dạng 1: Thay thế toàn các tự world 1 có trong S thành từ mới
+                    import "strings"
+                    newS := strings.ReplaceAll(S, "world 1", "new world 1" )
+                * Dạng 2: Thay đổi một phần chuỗi
+                    newS := strings.Replace(S, "world 1", "new world 1", n)
+                        --> n: số lượng "world 1" cần thay thế tính từ trái sang phải
+                        --> n = -1: tương đương ReplaceAll
+            + Kiểm tra chứa chuỗi con:
+                import "strings"
+                hasString := strings.Contains(S, subS)
+                    --> subS: chuỗi con cần kiểm tra
+                    --> Kết quả trả về là true/false
+            + Cắt chuỗi thành mảng con:
+                import "strings"
+                StringSlice := strings.Split(S, Ký tự dùng để cắt)
+                    --> StringSlice là một slide được tách từ S
+===========================================================
+2. Câu lệnh điều kiện
+	2.1 Câu lệnh điều kiện KHÔNG CHỨA biến tham số
+		if a > b && b > c{
+			...
+		} else if [biểu thức điều kiện]{
+		 	...
+		} else{
+		 	...
+		}
+	2.2 Câu lệnh điều kiện CHỨA biến tham số
+		if a,b := 10,20; a > 0 && b > 0{
+			...
+		}
+===========================================================
+3. Cấu trúc vòng lặp for
+	3.0 Các hàm bổ trợ
+		- break: dừng vòng lặp
+		- continue: đi đến lần lặp tiếp theo
+	3.1 Vòng lặp truyền thống
+		for i := 1; i < 3; i++{
+			...
+		}
+	3.2 Vòng lặp while
+		i := 1
+		for i <= 10{
+			...
+			i++
+		}
+	3.3 Vòng lặp vô hạn
+		for {
+			...
+		}
+	3.4* Duyệt mảng bằng vòng lặp
+		- Trường hợp có sài đến index
+			for index, value := range mySlice{
+				...
+			}
+		- Trường hợp không sài index
+			for _, value := range mySlice{
+				...
+			}
+===========================================================
+4. Kiểu dữ liệu array (mảng tĩnh) và slice (mảng động)
+	4.0 Các hàm hỗ trợ
+		- mySlice := append(mySlice, valueA) --> thêm valueA vào mySlice
+		- len(mySlice) --> số phần tử có trong mySlice
+		- cap(mySlice) --> sức chứa tối đa của mySlice
+	4.1 array (mảng tĩnh)
+		- Cách khai báo: myArray := [5]int{1,2,3,4,5}
+	4.2 slice (mảng động)
+		- Cách khai báo: mySlice := []int{1,2,3,4}
+===========================================================
+5. Kiểu dữ liệu Map
+	- Map có thể thêm mới phần tử và cập nhật phần tử củ
+	5.1 Cách khai báo
+		- Sử dụng Map Literal (Phù hợp với ít phần tử)
+			myMap := map[string]int{
+				"key01": value01,
+				"key02": value02,
+			}
+		- Sử dụng hàm make (Phù hợp với nhiều phần tử)
+			myMap := make(map[string]int)
+			myMap["key01"] = value01
+			myMap["key02"] = value02
+	5.2 Các hàm hỗ trợ
+		- delete(myMap, "key01"): xóa cặp key01 và value01 ra khỏi myMap
+		- value, ok := myMap["key cần kiểm tra"]: kiểm tra xem phần từ có tồn tại trong map hay không
+			--> ok sẽ trả về true/false
+			--> có thể viết thành _, ok := myMap["key cần kiểm tra"]
