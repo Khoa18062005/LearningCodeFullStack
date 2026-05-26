@@ -1,0 +1,15 @@
+===========================================================
+1. Tính đóng gói (encapsulation)
+    - Dùng struct thay cho class
+        + Public: Viết HOA chữ cái đầu tiên trong tên biến
+        + Private: Viết THƯỜNG chữ cái đầu tiên trong tên biến
+    - Ví dụ:
+        type Vehicle struct {
+	        Brand string // Viết hoa -> Public
+	        model string // Viết thường -> Private (chỉ package này thấy)
+	        speed int    // Private
+        }
+    - Constructor (Golang không có hàm tạo) --> tự viết định nghĩa hàm tạo
+        func NewVehicle(brand, model string) Vehicle{
+            return Vehicle {Brand: brand, model: model, speed: 0}
+        }
